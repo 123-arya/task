@@ -1,0 +1,6 @@
+app.sock=
+*.sock
+__pycache__/
+*.pyc
+.env
+.git
