@@ -4,7 +4,8 @@ pipeline {
     stages {
         stage('Checkout') {
             steps {
-                git 'https://github.com/123-arya/task.git'
+                git branch: 'main',
+                    url: 'https://github.com/123-arya/task.git'
             }
         }
 
@@ -18,17 +19,17 @@ pipeline {
             }
         }
 
-        stage('Test') {
+        stage('Run Tests') {
             steps {
                 sh '''
                 cd /home/ubuntu/task
                 source myenv/bin/activate
-                pytest || true
+                pytest
                 '''
             }
         }
 
-        stage('Deploy') {
+        stage('Deploy to Production') {
             steps {
                 sh '''
                 sudo systemctl restart webapp
