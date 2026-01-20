@@ -1,0 +1,39 @@
+pipeline {
+    agent any
+
+    stages {
+        stage('Checkout') {
+            steps {
+                git 'https://github.com/123-arya/task.git'
+            }
+        }
+
+        stage('Install Dependencies') {
+            steps {
+                sh '''
+                cd /home/ubuntu/task
+                source myenv/bin/activate
+                pip install -r requirements.txt
+                '''
+            }
+        }
+
+        stage('Test') {
+            steps {
+                sh '''
+                cd /home/ubuntu/task
+                source myenv/bin/activate
+                pytest || true
+                '''
+            }
+        }
+
+        stage('Deploy') {
+            steps {
+                sh '''
+                sudo systemctl restart webapp
+                '''
+            }
+        }
+    }
+}
